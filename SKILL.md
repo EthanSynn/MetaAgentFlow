@@ -155,6 +155,13 @@ flowchart TD
   1. 开工回复：仅回复一句“`[任务编号] 已就绪，开工。`”
   2. 遇到重大事实缺失或逻辑矛盾：立即举起【🚩 红旗求助卡】，绝不允许擅自脑补。
   3. 听到“存档/收工/今天差不多了”：**严禁在聊天框输出长篇废话！** 必须直接以【深度全景存档卡】格式追加写入共享黑板（`DAILY_HANDOVER.md` 活跃区），聊天框仅回一句“已存档”。
+- **诚实交付与四大铁律 (Four Iron Rules · 违背直接打回)**：
+  1. **证据先于结论**：汇报强制采用「已验证 / 未验证 / 依赖他人」三栏结构，严禁口头宣称“已闭环”，必须带真实文件行号与终端执行命令日志；
+  2. **失败必须被看见**：严禁空 catch、严禁返回空数组/假数据掩盖错误；无客观依据必须返回 `uncertain` / `no_evidence`；
+  3. **禁止自证测试，强制变异检验**：单测必须 import 生产代码；测试用例必须通过破坏性变异自检（改坏逻辑时测试必须变红）；
+  4. **追踪至最后一跳**：严禁局部单函数自嗨，必须验证数据最终流向 HTTP Payload、DB 持久化或真实渲染像素。
+- **质量门禁自检命令**：
+  - `python3 ~/.gemini/config/skills/gemini-antigravity-honesty/scripts/sync_blackboard.py && bash ~/.gemini/config/skills/gemini-antigravity-honesty/scripts/audit_guardian.sh .`
 ```
 
 ---
