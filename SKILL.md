@@ -1,7 +1,7 @@
 ---
 name: meta-agent-flow
-version: 1.1.0
-description: "Chat-Native 普惠型多智能体协同协议：通过元提示词引擎（Prompt-of-Prompts）、物理级会话隔离与双分区黑板（Queue & ACK Blackboard），实现无需代码、零 API 成本、永不降智的高并发多 Agent 编排。"
+version: 1.2.0
+description: "Chat-Native 普惠型多智能体协同协议：通过元提示词引擎（Prompt-of-Prompts）、物理级会话隔离、双区目录分离（AI_CONTEXT vs DELIVERABLES）与双分区黑板，实现无需代码、零 API 成本、对话可随时销毁重建的多 Agent 编排。"
 author: "Ethan Synn & MetaAgentFlow Open Source Community"
 tags: ["multi-agent", "prompt-engineering", "productivity", "chat-native", "human-ai-teaming", "blackboard-architecture"]
 ---
@@ -89,6 +89,22 @@ flowchart TD
   3. **主控 CORE-01 自动化派工调度升级**：
      - 当用户下达“更新”或“跨端派工”时，CORE-01 严禁让人类充当“人肉中继”，必须根据全局 DAG 任务依赖，自动输出针对目标 Agent 的【标准化派工卡（Work Dispatch Card）】，精准附带依赖清单与指令，终结人工搬砖！
 
+### 2.7 双区目录分离（AI 资料区 vs 人类产出区）与“无痛删对话”记忆协议 (v1.2.0 新增)
+- **痛点**：
+  1. 工程代码、原始数据、缓存、PDF 终稿混在同一个项目树里，AI 自己能看懂，但人类想找一个最终版 PDF、PPT 或视频时到处翻找找不到；
+  2. 对话聊长了上下文膨胀变笨，想删掉重开又怕丢掉刚聊出来的决策与断点。
+- **解法（双区隔离 + 外置海马体）**：
+  每个项目根目录**强制分离**两大清晰分区：
+  1. **`AI_CONTEXT/`（专门给 AI 看的记忆与资料区）**：
+     - 必建 `AI_CONTEXT/AI_MEMORY.md`（使用 `templates/ai_memory_template.md`）：记录项目目标、铁律、多会话分工矩阵、**当前最新断点**、关键代码/数据路径与下一步行动；
+     - 可建 `AI_CONTEXT/DATA_AND_SPECS.md`：存放仅供 AI 读取的数据字典、接口契约、审稿细则。
+  2. **`DELIVERABLES/`（专门给人类看的可读最终产出区）**：
+     - **铁律**：本目录只放给人看的最终成品（`.pdf`、`.pptx`、`.mp4`、`.docx`、终版成图、结论简报），**严禁放入脚本、中间 CSV/JSON 或日志**；
+     - 必建 `DELIVERABLES/INDEX.md`（使用 `templates/human_deliverables_index_template.md`），每次新产出成品必须同步拷入或软链至 `DELIVERABLES/` 并更新索引表，确保人类“点开即得”。
+- **“无痛删对话”换代闭环**：
+  - 任一对话结束阶段或上下文变长前，Agent 将最新断点更新进 `AI_CONTEXT/AI_MEMORY.md` 并将成品索引进 `DELIVERABLES/INDEX.md`；
+  - 之后即可**随时删除旧对话框**，通过总控重新拉起新会话，新会话首步只需读取 `AI_CONTEXT/AI_MEMORY.md` 即可 100% 同步恢复，彻底消除对云端/窗口历史记录的依赖！
+
 ---
 
 ## 3. 主控总台一键激活提示词 (Master Orchestrator System Prompt)
@@ -161,7 +177,7 @@ flowchart TD
   3. **禁止自证测试，强制变异检验**：单测必须 import 生产代码；测试用例必须通过破坏性变异自检（改坏逻辑时测试必须变红）；
   4. **追踪至最后一跳**：严禁局部单函数自嗨，必须验证数据最终流向 HTTP Payload、DB 持久化或真实渲染像素。
 - **质量门禁自检命令**：
-  - `python3 ~/.gemini/config/skills/gemini-antigravity-honesty/scripts/sync_blackboard.py && bash ~/.gemini/config/skills/gemini-antigravity-honesty/scripts/audit_guardian.sh .`
+  - `<运行项目对应校验脚本或测试命令，如 pytest / npm test / bash audit.sh .，严禁口头宣称通过>`
 ```
 
 ---

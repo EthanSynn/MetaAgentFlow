@@ -3,12 +3,17 @@
 > **Chat-Native Multi-Agent Orchestration Protocol**  
 > Say goodbye to heavy Python frameworks and costly API wrappers. Empowered by **Prompt-of-Prompts Engine + Physical Context Isolation + Dual-Zone Queue & ACK Blackboard**, MetaAgentFlow allows anyone to orchestrate high-performing multi-agent swarms with zero code, zero API costs, and zero context degradation.
 
-[![Version](https://img.shields.io/badge/version-v1.1.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-v1.2.0-blue.svg)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Design](https://img.shields.io/badge/Architecture-Chat--Native-brightgreen.svg)]()
 [![Cost](https://img.shields.io/badge/Cost-Zero--API-success.svg)]()
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 [![Chinese](https://img.shields.io/badge/README-中文说明-red.svg)](README.md)
+
+---
+
+> ⚡ **Just using 2–3 web chat tabs or multiple desktop windows (Claude Code / Antigravity / Cursor) without any CLI?**  
+> Jump straight to the 1-page copy-paste guide 👉 **[QUICKSTART.md (Zero-CLI Edition)](./QUICKSTART.md)** — 2 prompts + 1 `HANDOVER.md` file and you are live.
 
 ---
 
@@ -83,13 +88,33 @@ The orchestrator returns standardized cards:
 
 ---
 
+## 🗂️ New in v1.2.0: Dual-Zone Directories and Painless Conversation Deletion
+
+Every project root keeps two fixed zones:
+
+```text
+your-project/
+├── AI_CONTEXT/          # For the AI: memory, checkpoints, data dictionaries, specs
+│   ├── AI_MEMORY.md     # External memory: goals, rules, session roles, latest checkpoint, next steps
+│   └── DATA_AND_SPECS.md  # Optional: AI-only specs and review criteria
+└── DELIVERABLES/        # For humans: final artifacts only
+    ├── INDEX.md         # Artifact list: file name, version, source, status
+    └── *.pdf / *.pptx / *.mp4 / *.docx / final figures
+```
+
+- **`DELIVERABLES/` holds artifacts only**: no scripts, intermediate CSV/JSON or logs. Copy or symlink every new artifact here and update `INDEX.md`. To find a final PDF, deck or video, open this folder.
+- **Painless conversation deletion**: before a conversation grows too long, the agent writes the latest checkpoint into `AI_CONTEXT/AI_MEMORY.md`. You can then delete the old conversation; a new one reads `AI_MEMORY.md` first and resumes. No dependency on chat history.
+- Templates: [`templates/ai_memory_template.md`](./templates/ai_memory_template.md) and [`templates/human_deliverables_index_template.md`](./templates/human_deliverables_index_template.md). Full spec in [`SKILL.md`](./SKILL.md), section 2.7.
+
+---
+
 ## 📂 Repository Structure
 
 ```text
 MetaAgentFlow/
 ├── .gitignore                      # Zero-privacy leakage rules
 ├── LICENSE                         # MIT License
-├── CHANGELOG.md                    # Changelog (v1.1.0)
+├── CHANGELOG.md                    # Changelog (v1.2.0)
 ├── README.md                       # Chinese Documentation
 ├── README_EN.md                    # English Documentation
 ├── SKILL.md                        # MetaAgentFlow Protocol Specification
@@ -97,7 +122,9 @@ MetaAgentFlow/
 │   ├── profile_template.md         # Personal profile & memory anchor
 │   ├── handover_template.md        # Dual-zone shared blackboard (Queue & ACK)
 │   ├── workflow_spec_template.md   # Custom multi-agent pipeline specification
-│   └── red_flag_template.md        # Fail-fast red flag circuit breaker
+│   ├── red_flag_template.md        # Fail-fast red flag circuit breaker
+│   ├── ai_memory_template.md       # AI external memory and checkpoint card (v1.2.0)
+│   └── human_deliverables_index_template.md  # Human deliverables index (v1.2.0)
 ├── prompts/                        # Ready-to-use Prompt Library
 │   ├── orchestrator_system_prompt.md  # Master orchestrator prompt (3 modes)
 │   ├── domain_agent_cold_start.md     # Domain agent universal cold-start

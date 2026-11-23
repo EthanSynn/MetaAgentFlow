@@ -3,12 +3,17 @@
 > **Chat-Native 普惠型多智能体协同协议 (Chat-Native Multi-Agent Orchestration Protocol)**  
 > 告别复杂 Python 框架与高昂 API 调用。基于 **「元提示词生成 (Prompt-of-Prompts) + 物理会话隔离 (Physical Context Isolation) + 双分区共享黑板 (Queue & ACK Blackboard)」**，让每个人都能在普通对话框中零代码编排属于自己的专业级多智能体舰队。
 
-[![Version](https://img.shields.io/badge/version-v1.1.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-v1.2.0-blue.svg)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Design](https://img.shields.io/badge/Architecture-Chat--Native-brightgreen.svg)]()
 [![Cost](https://img.shields.io/badge/Cost-Zero--API-success.svg)]()
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 [![English](https://img.shields.io/badge/README-English-orange.svg)](README_EN.md)
+
+---
+
+> ⚡ **只想用 2~3 个网页对话框，或在 Claude Code / Antigravity / Cursor 桌面版里多窗协同（无任何 CLI）？**  
+> 直接看 1 页纸抄作业指南 👉 **[QUICKSTART.md（Zero-CLI 极速上手版）](./QUICKSTART.md)** — 复制 2 段话 + 1 个 `HANDOVER.md` 即可开跑。
 
 ---
 
@@ -83,13 +88,33 @@ flowchart TD
 
 ---
 
+## 🗂️ v1.2.0 新增：双区目录分离与“无痛删对话”
+
+每个项目根目录固定两个分区：
+
+```text
+你的项目/
+├── AI_CONTEXT/          # 给 AI 看：记忆、断点、数据字典、接口契约
+│   ├── AI_MEMORY.md     # 外置海马体：目标、铁律、会话分工、最新断点、下一步
+│   └── DATA_AND_SPECS.md  # 可选：仅供 AI 读取的规格与审稿细则
+└── DELIVERABLES/        # 给人看：只放最终成品
+    ├── INDEX.md         # 成品清单：文件名、版本、来源、状态
+    └── *.pdf / *.pptx / *.mp4 / *.docx / 终版成图
+```
+
+- **`DELIVERABLES/` 只放成品**：不放脚本、中间 CSV/JSON、日志。新成品必须拷入或软链到这里，并更新 `INDEX.md`。想找最终版 PDF、PPT、视频，直接打开这个文件夹。
+- **无痛删对话**：对话变长之前，Agent 先把最新断点写进 `AI_CONTEXT/AI_MEMORY.md`。之后可以删除旧对话，新对话首步读取 `AI_MEMORY.md` 即可接续，不依赖聊天记录。
+- 模板：[`templates/ai_memory_template.md`](./templates/ai_memory_template.md)、[`templates/human_deliverables_index_template.md`](./templates/human_deliverables_index_template.md)。完整规范见 [`SKILL.md`](./SKILL.md) 第 2.7 节。
+
+---
+
 ## 📂 仓库全景目录
 
 ```text
 MetaAgentFlow/
 ├── .gitignore                      # 严格脱敏与零隐私进库规则
 ├── LICENSE                         # MIT 开源许可证
-├── CHANGELOG.md                    # 版本演进日志 (v1.1.0)
+├── CHANGELOG.md                    # 版本演进日志 (v1.2.0)
 ├── README.md                       # 中文核心说明文档
 ├── README_EN.md                    # 英文说明文档
 ├── SKILL.md                        # MetaAgentFlow 协议完整规范标准
@@ -97,7 +122,9 @@ MetaAgentFlow/
 │   ├── profile_template.md         # 个人事实与记忆锚点模板
 │   ├── handover_template.md        # 双分区共享黑板模板 (Queue & ACK)
 │   ├── workflow_spec_template.md   # 自定义多智能体工作流设计规范
-│   └── red_flag_template.md        # 阻断报警与防脑补熔断卡模板
+│   ├── red_flag_template.md        # 阻断报警与防脑补熔断卡模板
+│   ├── ai_memory_template.md       # AI 外置记忆与断点接续卡模板 (v1.2.0)
+│   └── human_deliverables_index_template.md  # 人类产出区清单模板 (v1.2.0)
 ├── prompts/                        # 开箱即用提示词集
 │   ├── orchestrator_system_prompt.md  # 主控规划总台系统提示词 (三模自适应)
 │   ├── domain_agent_cold_start.md     # 执行端子 Agent 通用冷启动协议

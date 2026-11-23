@@ -30,3 +30,11 @@ private/
 scratch/
 tmp/
 __pycache__/
+
+# v1.2.0 personal deliverables zone (symlinks to personal reports, never publish)
+DELIVERABLES/
+AI_CONTEXT/
+PROJECT.md
+demo_sandbox_gate/
+docs/*LuoXinYi*
+docs/*罗信溢*

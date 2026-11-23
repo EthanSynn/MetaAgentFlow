@@ -5,6 +5,24 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ---
 
+## [v1.2.0] - 2026-11-23 (Zero-CLI & Dual-Zone Release)
+
+### 🚀 Highlights (核心里程碑)
+- **Zero-CLI Quickstart (`QUICKSTART.md`)**: 1-page copy-paste guide for users with only 2–3 web chat tabs or desktop agent windows (Claude Code / Antigravity / Cursor), requiring zero CLI setup or Python frameworks.
+- **Dual-Zone Directory Separation (双区目录分离)**: every project root keeps two physically separate zones. `AI_CONTEXT/` is the AI-only memory zone; `DELIVERABLES/` holds only final artifacts for humans (`.pdf`, `.pptx`, `.mp4`, `.docx`, final figures). Scripts, intermediate CSV/JSON and logs are not allowed in `DELIVERABLES/`.
+- **Painless Conversation Deletion (无痛删对话)**: before a conversation grows too long, the agent writes the latest checkpoint into `AI_CONTEXT/AI_MEMORY.md` and indexes new artifacts in `DELIVERABLES/INDEX.md`. The old conversation can then be deleted, and a new one resumes by reading `AI_MEMORY.md` first. No dependency on chat history.
+
+### ✨ New Features (新特性)
+- **Bidirectional Declarative Sync (双向声明式直连同步)**: workspace blackboard at `.agent/blackboard/sync-state.json` and `error-ledger.md`. Saying 【存档】 on the coding side packages new bugs and cases; saying 【更新】 on the skill side compiles audit rules; saying 【更新】 on the coding side reloads them.
+- **Automated Dispatch (CORE-01 自动化派工)**: the master orchestrator outputs a standardized Work Dispatch Card from the task DAG, so the human no longer relays text between agents.
+- **Four Iron Rules (诚实交付四大铁律)** embedded in the dispatch template: evidence before conclusions, failures must be visible, mutation-checked tests, trace to the last hop.
+- **New templates**: `templates/ai_memory_template.md` and `templates/human_deliverables_index_template.md`.
+
+### 📝 Notes (说明)
+- Items above are specified in `SKILL.md` (sections 2.6, 2.7 and the dispatch template). `README.md` and `README_EN.md` describe the dual-zone layout.
+
+---
+
 ## [v1.1.0] - 2026-11-05 (Official Open Source Release / 正式开源首发)
 
 ### 🚀 Highlights & Milestones (核心里程碑)
